@@ -22,8 +22,8 @@ interface Item {
 })
 export class AppComponent {
   items: Item[] = [
-    { nome: 'Maçã', comprado: false },
-    { nome: 'Banana', comprado: true },
+    { nome: 'Arroz', comprado: false },
+    { nome: 'Feijão', comprado: true },
   ];
 
   itemForm: FormGroup;

@@ -2,17 +2,21 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
     margin: 0;
-    padding: 20px;
+    height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
   }
   
   .shopping-list-container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    max-width: 600px; 
+    width: 100%; /* Faz com que o contêiner ocupe 100% da largura permitida */
+    background: white; /* Cor de fundo branca */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+    padding: 20px; /* Espaçamento interno */
   }
+  
   
   .title {
     text-align: center;
@@ -89,6 +93,25 @@ body {
     border: none;
     cursor: pointer;
     font-size: 16px;
+  }
+  
+  .toggle-button:hover {
+    color: #28a745; /* Verde para a confirmação */
+  }
+  
+  .edit-button:hover {
+    color: #ffc107; /* Amarelo para edição */
+  }
+  
+  .delete-button:hover {
+    color: #dc3545; /* Vermelho para remoção */
+  }
+  .button-group button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px; /* Aumente o tamanho do ícone */
+    transition: color 0.2s;
   }
   
   .toggle-button:hover {
