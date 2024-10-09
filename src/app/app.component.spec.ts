@@ -1,29 +1,73 @@
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { RouterOutlet } from '@angular/router';
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
-  });
+interface Item {
+  nome: string;
+  comprado: boolean;
+}
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, ReactiveFormsModule, CommonModule],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  items: Item[] = [
+    { nome: 'Maçã', comprado: false },
+    { nome: 'Banana', comprado: true },
+  ];
 
-  it(`should have the 'ProjetoListaCompras' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('ProjetoListaCompras');
-  });
+  itemForm: FormGroup;
+  editingItem: Item | null = null;
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ProjetoListaCompras');
-  });
-});
+  constructor(private fb: FormBuilder) {
+    this.itemForm = this.fb.group({
+      itemName: ['', Validators.required],
+    });
+  }
+
+  get itensNaoComprados() {
+    return this.items.filter((item) => !item.comprado);
+  }
+
+  get itensComprados() {
+    return this.items.filter((item) => item.comprado);
+  }
+
+  addItem() {
+    if (this.itemForm.valid) {
+      const itemName = this.itemForm.get('itemName')?.value;
+
+      if (this.editingItem) {
+        this.editingItem.nome = itemName;
+        this.editingItem = null;
+      } else {
+        this.items.push({ nome: itemName, comprado: false });
+      }
+
+      this.itemForm.reset();
+    }
+  }
+
+  startEditing(item: Item) {
+    this.editingItem = item;
+    this.itemForm.setValue({ itemName: item.nome });
+  }
+
+  toggleItem(item: Item) {
+    item.comprado = !item.comprado;
+  }
+
+  removeItem(item: Item) {
+    this.items = this.items.filter((i) => i !== item);
+  }
+}
